@@ -2,7 +2,7 @@ from pathlib import Path
 
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory, flash
 import os
-import pandas as pd
+# import pandas as pd  # Временно отключено для тестирования
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime, timedelta
@@ -32,46 +32,14 @@ if app.config['MOCK_DATA']:
     for file_type, file_path in app.config['DATA_FILES'].items():
         if file_type != 'crypto_images' and not os.path.exists(file_path):
             if file_type == 'clients':
-                # Generate client data
-                client_ids = list(range(127051970, 127051970 + 100))
-                usernames = [f'user_{num}' for num in range(1, 101)]
-                ips = [f'192.168.{random.randint(0, 255)}.{random.randint(0, 255)}' for _ in range(100)]
-                start_dates = [(datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%d.%m.%Y %H:%M') for _
-                               in range(100)]
-                end_dates = [(datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%d.%m.%Y %H:%M') for _
-                             in range(100)]
-
-                data = {
-                    'ID': client_ids,
-                    'Username': usernames,
-                    'IP': ips,
-                    'Start date': start_dates,
-                    'End date': end_dates
-                }
-                pd.DataFrame(data).to_csv(file_path, index=False, sep=';')
+                # Generate client data - временно отключено pandas
+                print(f"Mock data generation for {file_type} temporarily disabled")
+                pass
 
             elif file_type == 'hot_leads':
-                # Generate hot leads data
-                lead_nums = list(range(126922958, 126922958 + 20))
-                users = [f'user_{num}' for num in range(1, 21)]
-                ips = [f'10.0.{random.randint(0, 255)}.{random.randint(0, 255)}' for _ in range(20)]
-                reports = [f'Sample report {num}' for num in range(1, 21)]
-                start_dates = [(datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%d.%m.%Y %H:%M') for _
-                               in range(20)]
-                end_dates = [(datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%d.%m.%Y %H:%M') for _
-                             in range(20)]
-                images = [f'/uploads/files/20250606/{random.randint(1000000000, 9999999999)}.png' for _ in range(20)]
-
-                data = {
-                    '№': lead_nums,
-                    'User': users,
-                    'IP': ips,
-                    'Report': reports,
-                    'Start date': start_dates,
-                    'End date': end_dates,
-                    'Картинка': images
-                }
-                pd.DataFrame(data).to_excel(file_path, index=False)
+                # Generate hot leads data - временно отключено pandas
+                print(f"Mock data generation for {file_type} temporarily disabled")
+                pass
 
     # Create mock crypto images
     crypto_dir = app.config['DATA_FILES']['crypto_images']
@@ -145,61 +113,15 @@ def dashboard():
 @app.route('/clients')
 @login_required
 def show_clients():
-    csv_path = app.config['DATA_FILES'].get('clients', 'data/finish ltt.csv')
-    try:
-        # Пробуем разные кодировки для чтения CSV файла
-        encodings = ['utf-8', 'cp1251', 'latin-1', 'iso-8859-1', 'windows-1251']
-        df = None
-        
-        for encoding in encodings:
-            try:
-                df = pd.read_csv(csv_path, sep=';', encoding=encoding)
-                break  # Если успешно прочитали, выходим из цикла
-            except UnicodeDecodeError:
-                continue
-        
-        if df is None:
-            raise Exception("Не удалось прочитать файл с любой из попробованных кодировок")
-
-        # Форматування дат (необов'язково, якщо потрібно)
-        if 'Start date' in df.columns:
-            df['Start date'] = pd.to_datetime(df['Start date'], dayfirst=True, errors='coerce')
-            df['Start date'] = df['Start date'].dt.strftime('%d.%m.%Y %H:%M').fillna('')
-        
-        if 'End date' in df.columns:
-            df['End date'] = pd.to_datetime(df['End date'], dayfirst=True, errors='coerce')
-            df['End date'] = df['End date'].dt.strftime('%d.%m.%Y %H:%M').fillna('')
-
-        # Генерація HTML таблиці
-        table_html = df.to_html(classes='table table-striped table-hover', index=False, border=0, justify='center', escape=False)
-
-        return render_template('clients.html', table=table_html, error=None)
-    except Exception as e:
-        flash(f'Помилка при завантаженні даних клієнтів: {str(e)}', 'danger')
-        return render_template('clients.html', table=None, error=str(e))
+    # Временно отключено для тестирования развертывания
+    return render_template('clients.html', table="<p>Функция временно недоступна - тестирование развертывания</p>", error=None)
 
 
 @app.route('/hot-leads')
 @login_required
 def show_hot_leads():
-    excel_path = app.config['DATA_FILES'].get('hot_leads', 'data/filtered_69_images_HQ_fast.xlsx')
-    try:
-        # Читаємо Excel-файл (перший лист)
-        df = pd.read_excel(excel_path)
-
-        # Якщо потрібно, можна попрацювати з датами чи форматуванням (опціонально)
-        # Наприклад, привести дати до потрібного формату, якщо там є дати
-        for col in ['Start date', 'End date']:
-            if col in df.columns:
-                df[col] = pd.to_datetime(df[col], errors='coerce').dt.strftime('%d.%m.%Y %H:%M').fillna('')
-
-        # Генеруємо HTML таблицю без індексу
-        table_html = df.to_html(classes='table table-striped table-hover', index=False, border=0, justify='center', escape=False)
-
-        return render_template('hot_lead.html', table=table_html, error=None)
-    except Exception as e:
-        flash(f'Помилка при завантаженні Hot Lead даних: {str(e)}', 'danger')
-        return render_template('hot_lead.html', table=None, error=str(e))
+    # Временно отключено для тестирования развертывания
+    return render_template('hot_lead.html', table="<p>Функция временно недоступна - тестирование развертывания</p>", error=None)
 
 
 @app.route('/crypto-report')
