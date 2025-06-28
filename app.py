@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime, timedelta
 import random
-from PIL import Image, ImageDraw
+# from PIL import Image, ImageDraw  # Временно отключено для тестирования
 from config import Config
 
 # Initialize Flask application
@@ -41,18 +41,11 @@ if app.config['MOCK_DATA']:
                 print(f"Mock data generation for {file_type} temporarily disabled")
                 pass
 
-    # Create mock crypto images
+    # Create mock crypto images - временно отключено Pillow
     crypto_dir = app.config['DATA_FILES']['crypto_images']
     if not os.listdir(crypto_dir):
-        for num in range(1, 11):
-            img = Image.new('RGB', (400, 300), color=(
-                random.randint(0, 255),
-                random.randint(0, 255),
-                random.randint(0, 255)
-            ))
-            d = ImageDraw.Draw(img)
-            d.text((100, 150), f"Crypto Report {num}", fill=(255, 255, 255))
-            img.save(os.path.join(crypto_dir, f'crypto_report_{num}.png'))
+        print("Mock image generation temporarily disabled")
+        pass
 
 # User credentials for authentication
 users = {
