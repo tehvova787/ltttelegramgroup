@@ -4,11 +4,11 @@ services:
     runtime: python
     buildCommand: |
       pip install --upgrade pip setuptools wheel
-      pip install -r requirements.txt
+      pip install --only-binary=all -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
-        value: "3.11.9"
+        value: "3.12.7"
       - key: SECRET_KEY
         generateValue: true
       - key: MOCK_DATA
