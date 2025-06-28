@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-4">
+                <h1 class="display-4 fw-bold text-primary">Telegram Client Management</h1>
+                <p class="lead">Comprehensive analytics and reporting for your Telegram client base</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100 border-primary shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0"><i class="bi bi-people-fill me-2"></i>Client Database</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">View all clients who completed subscriptions with detailed analytics and filtering options.</p>
+                <div class="d-grid">
+                    <a href="{{ url_for('show_clients') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-database me-1"></i> Access Database
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-success shadow">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0"><i class="bi bi-fire me-2"></i>Hot Lead Report</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Manager subscription reports from direct hot processing with conversion metrics.</p>
+                <div class="d-grid">
+                    <a href="{{ url_for('show_hot_leads') }}" class="btn btn-outline-success">
+                        <i class="bi bi-bar-chart-line me-1"></i> View Report
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-warning shadow">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0"><i class="bi bi-currency-bitcoin me-2"></i>Crypto Report</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Visual report from processed warm crypto target database with image analytics.</p>
+                <div class="d-grid">
+                    <a href="{{ url_for('gallery') }}" class="btn btn-outline-warning">
+                        <i class="bi bi-images me-1"></i> View Gallery
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Divider -->
+<hr class="my-5">
+
+<!-- Button with alert -->
+<div class="text-center">
+    <button class="btn btn-outline-dark btn-lg" onclick="showComingSoon()">
+        <i class="bi bi-search"></i> Перевірка по ідентифікатору клієнта
+    </button>
+</div>
+
+<!-- Toast / Alert -->
+<div id="processingAlert" class="alert alert-info mt-4 text-center d-none" role="alert">
+    🔄 Розділ в розробці...
+</div>
+
+<script>
+    function showComingSoon() {
+        const alertBox = document.getElementById('processingAlert');
+        alertBox.classList.remove('d-none');
+        alertBox.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => alertBox.classList.add('d-none'), 4000);
+    }
+</script>
+{% endblock %}

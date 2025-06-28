@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Visual Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        header img {
+            height: 60px;
+        }
+        header h1 {
+            margin: 0.5rem 0;
+            font-size: 2rem;
+        }
+        header p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .image-card {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        .image-card:hover {
+            transform: scale(1.02);
+        }
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .image-info {
+            padding: 1rem;
+        }
+        .image-info h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.1rem;
+            color: #333;
+            word-break: break-all;
+        }
+        .image-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        .image-info li + li {
+            margin-top: 0.2rem;
+        }
+        .empty {
+            text-align: center;
+            padding: 2rem;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            <h1>Crypto Visual Report</h1>
+            <p>
+                Оновлено: {{ now.strftime('%d.%m.%Y %H:%M') }}
+                {% if stats %}
+                    | Всього зображень: {{ stats.total }}
+                    | Формати: {{ stats.formats | join(', ') }}
+                {% endif %}
+            </p>
+        </header>
+
+        {% if not images %}
+        <div class="empty">
+            <p>У папці немає зображень</p>
+        </div>
+        {% else %}
+        <div class="gallery">
+            {% for img in images %}
+            <div class="image-card">
+                <div class="image-wrapper">
+                    <img src="{{ url_for('get_image', filename=img.filename) }}" alt="{{ img.filename }}" loading="lazy">
+                </div>
+                <div class="image-info">
+                    <h3>{{ img.filename }}</h3>
+                    <ul>
+                        <li>Розмір: {{ img.width }}×{{ img.height }} px</li>
+                        <li>Вага: {{ img.size_kb }} КБ</li>
+                        <li>Формат: {{ img.format }}</li>
+                        <li>Змінено: {{ img.modified }}</li>
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

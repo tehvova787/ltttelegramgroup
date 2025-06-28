@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Client Database</h2>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% else %}
+    {% if table %}
+    <div class="table-wrapper">
+        {{ table | safe }}
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        Дані відсутні або сталася помилка при завантаженні.
+    </div>
+    {% endif %}
+{% endif %}
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+
+<style>
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+.table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 0.6rem;
+    text-align: left;
+    border: 1px solid #dee2e6;
+    white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+    .table {
+        font-size: 0.85rem;
+        min-width: unset;
+    }
+
+    .table-wrapper {
+        border: none;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}

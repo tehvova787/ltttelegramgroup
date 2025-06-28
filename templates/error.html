@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Помилка</title>
+    <link rel="stylesheet" href="{{ url_for('static_files', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="error-container">
+        <h1>Сталася помилка</h1>
+        <p>{{ error_message }}</p>
+        <a href="{{ url_for('crypto_report') }}">Повернутися до звіту</a>
+    </div>
+</body>
+</html>
