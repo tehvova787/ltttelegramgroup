@@ -48,4 +48,13 @@ instance/
 .env.local
 .env.development.local
 .env.test.local
-.env.production.local 
+.env.production.local
+
+# Data files (optional - remove if you want to include them)
+data/*.csv
+data/*.xlsx
+data/crypto-images/*
+
+# Temporary files
+*.tmp
+*.temp 
